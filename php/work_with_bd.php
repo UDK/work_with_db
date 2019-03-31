@@ -1,5 +1,4 @@
 <?php
-
 class work_with_bd
 {
     private $config;
@@ -11,13 +10,13 @@ class work_with_bd
     public function __construct()
     {
 
-        if (!@include_once('./php/config/config.php'))
+        if (!@include_once('./config/config.php'))
         {
             die('File with config not found');
         }
         else
         {
-            $this->config = @include('./php/config/config.php');
+            $this->config = @include('./config/config.php');
             $this->Connect();
         }
     }
