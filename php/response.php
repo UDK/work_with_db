@@ -3,15 +3,12 @@ require_once './work_with_bd.php';
 if ($work_db == null) {
     $work_db = new work_with_bd();
 }
-if ($_GET['view']==
-true) {
+if ($_GET['view'] == true) {
     $data_table = $work_db->view_table();
     $unique_arr = array();
     for ($a = 0; $a < count($data_table); $a++) {
         $buff = $data_table[$a]['Фамилия'];
         $unique_arr['Предмет'][] = $data_table[$a]['Предмет'];
-
-
         /*
          * checks the names in the array if not, creates an associative array
          */
@@ -41,4 +38,12 @@ true) {
     }
     unset($unique_arr['Предмет']);
     echo json_encode($unique_arr);
+} elseif ($_GET['report']== true) {
+    $table_FIO = $work_db->view_FIO();
+    $array_FIO = array();
+    for($i =0;$i<count($table_FIO);$i++) {
+        $array_FIO[$i]['name'] = $table_FIO[$i][0];
+        $array_FIO[$i]['avg'] = $table_FIO[$i][1];
+    }
+    echo json_encode($array_FIO);
 }
