@@ -3,7 +3,7 @@ require_once './work_with_bd.php';
 if ($work_db == null) {
     $work_db = new work_with_bd();
 }
-if (/*$_GET['view']==*/
+if ($_GET['view']==
 true) {
     $data_table = $work_db->view_table();
     $unique_arr = array();

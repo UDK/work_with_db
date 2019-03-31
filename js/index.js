@@ -2,7 +2,6 @@ $(document).ready(
     function () {
         $('#view_table').click(
             function () {
-                alert('asdsad');
                 let parametr = {};
                 parametr['view'] = true;
                 $.ajax
