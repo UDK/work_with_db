@@ -10,8 +10,8 @@ $(document).ready(
                         type: 'GET',
                         data: parametr,
                         success(data) {
-                            let table_assessment = JSON.parse(data);
-                            Add_table(table_assessment, 'table1', '1');
+                            let table = JSON.parse(data);
+                            Add_table(table, 'table1', '1',false);
                         }
                     }
                 )
@@ -26,8 +26,8 @@ $(document).ready(
                     type: 'GET',
                     data: parametr,
                     success(data) {
-                        let table_assessment = JSON.parse(data);
-                        Add_table(table_assessment, 'table2', 'two');
+                        let table = JSON.parse(data);
+                        Add_table(table, 'table2', 'two');
                     }
                 })
             })
@@ -37,25 +37,46 @@ $(document).ready(
                 parametr['rating'] = true;
                 $.ajax({
                     url: './php/response.php',
-                    type: 'POST',
+                    type: 'GET',
                     data: parametr,
                     success(data) {
-                        let table_assessment = JSON.parse(data);
-                        Add_table(table_assessment, 'table3', 'three');
+                        let table = JSON.parse(data);
+                        Add_table(table, 'table3', 'three');
                     }
                 })
             })
+        $('#view_unique').click(
+            function () {
+                let parametr = {};
+                parametr['unique'] = true;
+                $.ajax({
+                    url: './php/response.php',
+                    type: 'GET',
+                    data: parametr,
+                    success(data) {
+                        let table = JSON.parse(data);
+                        Add_table(table, 'table4', 'four');
+                    }
+                })
+            }
+        )
     }
 )
 
-function Add_table(table, apparat, nameclass) {
-    $("#" + apparat).append("<thead><tr id='remove_id" + nameclass + "'><th scope='col'>  </th></tr></thead>");
+function Add_table(table, apparat, nameclass,bool_id) {
+    $(".remove"+nameclass).remove();
+    $("#" + apparat).append("<thead class='remove"+nameclass+"'><tr id='remove_id" + nameclass + "'><th scope='col'>  </th></tr></thead>");
     let qq = Object.keys(table)[0];
     for (let obj in table[qq]) {
         $("#remove_id" + nameclass).append("<th scope='col'>" + obj + "</th>");
     }
     for (let surname in table) {
-        $("#" + apparat).append("<tbody><tr id='" +nameclass+ surname + "'><th scope='col'>" + surname + "</th></tr></tbody>");
+        if(bool_id==true) {
+            $("#" + apparat).append("<tbody class='remove" + nameclass + "'><tr id='" + nameclass + surname + "'><th scope='col'>" + surname + "</th></tr></tbody>");
+        }
+        else {
+            $("#" + apparat).append("<tbody class='remove" + nameclass + "'><tr id='" + nameclass + surname + "'><th scope='col'>" + surname.substring(0,surname.length-1) + "</th></tr></tbody>");
+        }
 
         for (let subject in table[surname]) {
 

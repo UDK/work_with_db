@@ -30,14 +30,16 @@ class work_with_bd
         }
     }
 
-    private function send_request($request){
+    private function send_request($request)
+    {
         $table_assessment = $this->db_connect->query($request);
         $data = $table_assessment->fetchAll();
         return $data;
     }
+
     public function view_table()
     {
-        $request = "SELECT assessment.assessments as 'Оценка', subject_academic.name as 'Предмет', students.surname as 'Фамилия' FROM assessment JOIN students ON assessment.id_students = students.id JOIN subject_academic ON assessment.id_subject_academic = subject_academic.id";
+        $request = "SELECT assessment.assessments as 'Оценка', subject_academic.name as 'Предмет', students.surname as 'Фамилия', students.id FROM assessment JOIN students ON assessment.id_students = students.id JOIN subject_academic ON assessment.id_subject_academic = subject_academic.id";
         return $this->send_request($request);
     }
 
@@ -50,6 +52,12 @@ class work_with_bd
     public function rating()
     {
         $request = "SELECT students.surname, SUM(assessment.assessments) FROM students JOIN assessment ON students.id = assessment.id_students GROUP BY students.surname ORDER BY SUM(assessment.assessments) DESC";
+        return $this->send_request($request);
+    }
+
+    public function unique()
+    {
+        $request = "SELECT DISTINCT surname,firstname,lastname FROM students";
         return $this->send_request($request);
     }
 }

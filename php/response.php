@@ -7,7 +7,7 @@ if ($_GET['view'] == true) {
     $data_table = $work_db->view_table();
     $unique_arr = array();
     for ($a = 0; $a < count($data_table); $a++) {
-        $buff = $data_table[$a]['Фамилия'];
+        $buff = $data_table[$a]['Фамилия'].$data_table[$a]['id'];
         $unique_arr['Предмет'][] = $data_table[$a]['Предмет'];
         /*
          * checks the names in the array if not, creates an associative array
@@ -48,7 +48,7 @@ elseif ($_GET['report']== true) {
     }
     echo json_encode($array_faculty);
 }
-elseif($_POST['rating']==true){
+elseif($_GET['rating']==true){
     $rating = $work_db->rating();
     $rating_table = array();
     for($i =0;$i<count($rating);$i++) {
@@ -56,4 +56,14 @@ elseif($_POST['rating']==true){
         $rating_table[$i+1]['Баллы'] = $rating[$i][1];
     }
     echo json_encode($rating_table);
+}
+elseif($_GET['unique']==true){
+    $unique_arr = $work_db->unique();
+    $unique_table = array();
+    for($i =0;$i<count($unique_arr);$i++) {
+        $unique_table[$i+1]['Фамилия'] = $unique_arr[$i][0];
+        $unique_table[$i+1]['Имя'] = $unique_arr[$i][1];
+        $unique_table[$i+1]['Отчество'] = $unique_arr[$i][2];
+    }
+    echo json_encode($unique_table);
 }
