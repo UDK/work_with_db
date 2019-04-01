@@ -50,7 +50,7 @@ class work_with_bd
 
     public function rating()
     {
-        $request = "SELECT students.surname, SUM(assessment.assessments) FROM students JOIN assessment ON students.id = assessment.id_students GROUP BY students.surname ORDER BY SUM(assessment.assessments) DESC";
+        $request = "SELECT students.surname, SUM(assessment.assessments) FROM students JOIN assessment ON students.id = assessment.id_students GROUP BY students.id ORDER BY SUM(assessment.assessments) DESC";
         return $this->send_request($request);
     }
 

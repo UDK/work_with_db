@@ -48,7 +48,7 @@ elseif ($_GET['report']== true) {
     }
     echo json_encode($array_faculty);
 }
-elseif($_GET['rating']==true){
+elseif(/*$_GET['rating']==*/true){
     $rating = $work_db->rating();
     $rating_table = array();
     for($i =0;$i<count($rating);$i++) {
