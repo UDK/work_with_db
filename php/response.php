@@ -1,6 +1,6 @@
 <?php
 require_once './work_with_bd.php';
-if ($work_db == null) {
+if ($work_db === null) {
     $work_db = new work_with_bd();
 }
 if ($_GET['view'] == true) {
@@ -38,12 +38,22 @@ if ($_GET['view'] == true) {
     }
     unset($unique_arr['Предмет']);
     echo json_encode($unique_arr);
-} elseif ($_GET['report']== true) {
-    $table_FIO = $work_db->view_FIO();
-    $array_FIO = array();
-    for($i =0;$i<count($table_FIO);$i++) {
-        $array_FIO[$i]['name'] = $table_FIO[$i][0];
-        $array_FIO[$i]['avg'] = $table_FIO[$i][1];
+}
+elseif ($_GET['report']== true) {
+    $table_faculty = $work_db->view_avarage();
+    $array_faculty = array();
+    for($i =0;$i<count($table_faculty);$i++) {
+        $array_faculty[$i+1]['Факультет'] = $table_faculty[$i][0];
+        $array_faculty[$i+1]['Среднее'] = $table_faculty[$i][1];
     }
-    echo json_encode($array_FIO);
+    echo json_encode($array_faculty);
+}
+elseif($_POST['rating']==true){
+    $rating = $work_db->rating();
+    $rating_table = array();
+    for($i =0;$i<count($rating);$i++) {
+        $rating_table[$i+1]['Имя'] = $rating[$i][0];
+        $rating_table[$i+1]['Баллы'] = $rating[$i][1];
+    }
+    echo json_encode($rating_table);
 }
