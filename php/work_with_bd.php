@@ -10,7 +10,6 @@ class work_with_bd
      */
     public function __construct()
     {
-
         if (!@include_once('./config/config.php')) {
             die('File with config not found');
         } else {
@@ -45,7 +44,7 @@ class work_with_bd
 
     public function view_avarage()
     {
-        $request = "SELECT faculty.name, AVG(assessment.assessments) FROM faculty JOIN groups ON faculty.id = groups.id_faculty JOIN students ON groups.id = students.id_group JOIN assessment ON students.id = assessment.id_students GROUP BY faculty.id";
+        $request = "SELECT faculty.name, ROUND(AVG(assessment.assessments),2) FROM faculty JOIN groups ON faculty.id = groups.id_faculty JOIN students ON groups.id = students.id_group JOIN assessment ON students.id = assessment.id_students GROUP BY faculty.id";
         return $this->send_request($request);
     }
 

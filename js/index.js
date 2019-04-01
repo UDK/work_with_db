@@ -66,19 +66,20 @@ $(document).ready(
 function Add_table(table, apparat, nameclass, bool_id) {
     //clear before fill the forms
     $(".remove" + nameclass).remove();
-    let tag_name = "#" + apparat;
-    let tag_remove = "'remove" + nameclass+"'";
 
-    $(tag_name).append("<thead class="+tag_remove+"><tr id='re_id" + nameclass + "'><th scope='col'>  </th></tr></thead>");
+    let tag_name = "#" + apparat;
+    let tag_remove = "'remove" + nameclass + "'";
+
+    $(tag_name).append("<thead class=" + tag_remove + "><tr id='re_id" + nameclass + "'><th scope='col'>  </th></tr></thead>");
     let qq = Object.keys(table)[0];
     for (let obj in table[qq]) {
         $("#re_id" + nameclass).append("<th scope='col'>" + obj + "</th>");
     }
     for (let surname in table) {
         if (bool_id != true) {
-            $(tag_name).append("<tbody class="+tag_remove+"><tr id='" + nameclass + surname + "'><th scope='col'>" + surname + "</th></tr></tbody>");
+            $(tag_name).append("<tbody class=" + tag_remove + "><tr id='" + nameclass + surname + "'><th scope='col'>" + surname + "</th></tr></tbody>");
         } else {
-            $(tag_name).append("<tbody class="+tag_remove+"><tr id='" + nameclass + surname + "'><th scope='col'>" + surname.substring(0, surname.length - 1) + "</th></tr></tbody>");
+            $(tag_name).append("<tbody class=" + tag_remove + "><tr id='" + nameclass + surname + "'><th scope='col'>" + surname.substring(0, surname.length - 1) + "</th></tr></tbody>");
         }
 
         for (let subject in table[surname]) {
