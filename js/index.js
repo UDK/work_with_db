@@ -1,17 +1,53 @@
 $(document).ready(
     function () {
+        $.ajax({
+            async: false,
+            url: './php/response.php',
+            type: 'GET',
+            data: {faculty: true},
+            success(data) {
+                let table = JSON.parse(data);
+                change_rating(table, 'faculty', 'faculty')
+            }
+        })
+        $('.select_option').change(
+            function () {
+                $.ajax({
+                    async: false,
+                    url: './php/response.php',
+                    type: 'GET',
+                    data: {group: true, value_faculty: $('#faculty option:selected').text()},
+                    success(data) {
+                        let table = JSON.parse(data);
+                        change_rating(table,'.select_option_group', 'groups', 'group');
+                    }
+                })
+            }
+        )
+        $('.select_option_group').change(
+            function () {
+                $.ajax({
+                    async: true,
+                    url: './php/response.php',
+                    type: 'GET',
+                    data: {rating: true, value_group: $('#groups option:selected').text()},
+                    success(data) {
+                        let avg = JSON.parse(data);
+                        Add_table(avg,'table_avg','avg',true)
+                    }
+                })
+            }
+        )
         $('#view_table').click(
             function () {
-                let parametr = {};
-                parametr['view'] = true;
                 $.ajax
                 ({
                         url: './php/response.php',
                         type: 'GET',
-                        data: parametr,
+                        data: {view: true},
                         success(data) {
                             let table = JSON.parse(data);
-                            Add_table(table, 'table1', '1', true);
+                            Add_table(table, 'table1', '1', false);
                         }
                     }
                 )
@@ -19,67 +55,54 @@ $(document).ready(
         )
         $('#report').click(
             function () {
-                let parametr = {};
-                parametr['report'] = true;
                 $.ajax({
                     url: './php/response.php',
                     type: 'GET',
-                    data: parametr,
+                    data: {report: true},
                     success(data) {
                         let table = JSON.parse(data);
-                        Add_table(table, 'table2', 'two', false);
+                        Add_table(table, 'table2', 'two');
                     }
                 })
             })
-        $('#rating').click(
-            function () {
-                let parametr = {};
-                parametr['rating'] = true;
-                $.ajax({
-                    url: './php/response.php',
-                    type: 'GET',
-                    data: parametr,
-                    success(data) {
-                        let table = JSON.parse(data);
-                        Add_table(table, 'table3', 'three', false);
-                    }
-                })
-            })
+
         $('#view_unique').click(
             function () {
-                let parametr = {};
-                parametr['unique'] = true;
                 $.ajax({
                     url: './php/response.php',
                     type: 'GET',
-                    data: parametr,
+                    data: {unique: true},
                     success(data) {
                         let table = JSON.parse(data);
-                        Add_table(table, 'table4', 'four', false);
+                        Add_table(table, 'table4', 'four');
                     }
                 })
             }
         )
     }
 )
+/*
+ *working with select table. table - input table, name_class - purification  class, apparat - id of teg, nameclass - just name for delete class
+ */
+function change_rating(table,name_class, apparat, nameclass) {
+    $(name_class+' .remove_' + nameclass).remove();
+    for (let obj in table) {
+        $('#' + apparat).append("<option value='" + (Number(obj) + 1) + "'class='remove_" + nameclass + "'>" + table[obj] + "</option>");
+    }
+}
 
 function Add_table(table, apparat, nameclass, bool_id) {
-    //clear before fill the forms
     $(".remove" + nameclass).remove();
-
-    let tag_name = "#" + apparat;
-    let tag_remove = "'remove" + nameclass + "'";
-
-    $(tag_name).append("<thead class=" + tag_remove + "><tr id='re_id" + nameclass + "'><th scope='col'>  </th></tr></thead>");
+    $("#" + apparat).append("<thead class='remove" + nameclass + "'><tr id='remove_id" + nameclass + "'><th scope='col'>  </th></tr></thead>");
     let qq = Object.keys(table)[0];
     for (let obj in table[qq]) {
-        $("#re_id" + nameclass).append("<th scope='col'>" + obj + "</th>");
+        $("#remove_id" + nameclass).append("<th scope='col'>" + obj + "</th>");
     }
     for (let surname in table) {
-        if (bool_id != true) {
-            $(tag_name).append("<tbody class=" + tag_remove + "><tr id='" + nameclass + surname + "'><th scope='col'>" + surname + "</th></tr></tbody>");
+        if (bool_id == true) {
+            $("#" + apparat).append("<tbody class='remove" + nameclass + "'><tr id='" + nameclass + surname + "'><th scope='col'>" + surname + "</th></tr></tbody>");
         } else {
-            $(tag_name).append("<tbody class=" + tag_remove + "><tr id='" + nameclass + surname + "'><th scope='col'>" + surname.substring(0, surname.length - 1) + "</th></tr></tbody>");
+            $("#" + apparat).append("<tbody class='remove" + nameclass + "'><tr id='" + nameclass + surname + "'><th scope='col'>" + surname.substring(0, surname.length - 1) + "</th></tr></tbody>");
         }
 
         for (let subject in table[surname]) {

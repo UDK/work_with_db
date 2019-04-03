@@ -48,15 +48,6 @@ elseif ($_GET['report']== true) {
     }
     echo json_encode($array_faculty);
 }
-elseif($_GET['rating']==true){
-    $rating = $work_db->rating();
-    $rating_table = array();
-    for($i =0;$i<count($rating);$i++) {
-        $rating_table[$i+1]['Имя'] = $rating[$i][0];
-        $rating_table[$i+1]['Баллы'] = $rating[$i][1];
-    }
-    echo json_encode($rating_table);
-}
 elseif($_GET['unique']==true){
     $unique_arr = $work_db->unique();
     $unique_table = array();
@@ -66,4 +57,25 @@ elseif($_GET['unique']==true){
         $unique_table[$i+1]['Отчество'] = $unique_arr[$i][2];
     }
     echo json_encode($unique_table);
+}
+elseif($_GET['faculty']==true){
+    $faculty =$work_db->fuculty();
+    $faculty_table = array();
+    for($i =0;$i<count($faculty);$i++) {
+        $faculty_table[$i] = $faculty[$i][0];
+    }
+    echo json_encode($faculty_table);
+}
+elseif($_GET['group']==true){
+    $group = $work_db->groups($_GET['value_faculty']);
+    $group_table = array();
+    for($i =0;$i<count($group);$i++) {
+        $group_table[$i] = $group[$i][0];
+    }
+    echo json_encode($group_table);
+}
+elseif($_GET['rating']==true){
+    $avg = $work_db->rating($_GET['value_group']);
+    $avg_send[$avg[1]]['Рейтинг'] = $avg[0];
+    echo json_encode($avg_send);
 }

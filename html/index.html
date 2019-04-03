@@ -13,8 +13,20 @@
 </head>
 <body>
 <div class="container col-4 offset-4 text-center justify-content-center">
-    <button type="button" id="rating" class="btn btn-secondary">Рейтинг студентов</button>
-    <table class="table" id="table3">
+    <div class="select_option">
+        <select class="custom-select" id="faculty">
+            <option selected>-</option>
+        </select>
+    </div>
+    <br/><br/>
+    <div class="select_option_group">
+        <select class="custom-select" id="groups">
+            <option selected>-</option>
+        </select>
+    </div>
+    <br/><br/>
+    <table class="table" id="table_avg">
+
     </table>
     <br/><br/>
     <button type="button" id="view_table" class="btn btn-primary">Отображение таблицы</button>
