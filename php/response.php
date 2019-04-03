@@ -58,6 +58,14 @@ elseif($_GET['unique']==true){
     }
     echo json_encode($unique_table);
 }
+elseif($_GET['branch']==true){
+    $faculty =$work_db->branch();
+    $faculty_table = array();
+    for($i =0;$i<count($faculty);$i++) {
+        $faculty_table[$i] = $faculty[$i][0];
+    }
+    echo json_encode($faculty_table);
+}
 elseif($_GET['faculty']==true){
     $faculty =$work_db->fuculty();
     $faculty_table = array();

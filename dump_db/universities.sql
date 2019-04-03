@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 01 2019 г., 21:26
+-- Время создания: Апр 04 2019 г., 01:49
 -- Версия сервера: 10.3.13-MariaDB
 -- Версия PHP: 7.1.22
 
@@ -56,23 +56,42 @@ INSERT INTO `assessment` (`id_students`, `id_subject_academic`, `assessments`) V
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `bracnh`
+--
+
+CREATE TABLE `bracnh` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `bracnh`
+--
+
+INSERT INTO `bracnh` (`id`, `name`) VALUES
+(1, 'Хогвартс');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `faculty`
 --
 
 CREATE TABLE `faculty` (
   `id` int(11) NOT NULL,
-  `name` varchar(40) DEFAULT NULL
+  `name` varchar(40) DEFAULT NULL,
+  `id_branch` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `faculty`
 --
 
-INSERT INTO `faculty` (`id`, `name`) VALUES
-(1, 'Гриффиндор'),
-(2, 'Пуффендуй'),
-(3, 'Когтевран'),
-(4, 'Слизерин');
+INSERT INTO `faculty` (`id`, `name`, `id_branch`) VALUES
+(1, 'Гриффиндор', 1),
+(2, 'Пуффендуй', 1),
+(3, 'Когтевран', 1),
+(4, 'Слизерин', 1);
 
 -- --------------------------------------------------------
 
@@ -159,10 +178,17 @@ ALTER TABLE `assessment`
   ADD KEY `id_subject_academic` (`id_subject_academic`);
 
 --
+-- Индексы таблицы `bracnh`
+--
+ALTER TABLE `bracnh`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `faculty`
 --
 ALTER TABLE `faculty`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_branch` (`id_branch`);
 
 --
 -- Индексы таблицы `groups`
@@ -188,6 +214,12 @@ ALTER TABLE `subject_academic`
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
+
+--
+-- AUTO_INCREMENT для таблицы `bracnh`
+--
+ALTER TABLE `bracnh`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `faculty`
@@ -223,6 +255,12 @@ ALTER TABLE `subject_academic`
 ALTER TABLE `assessment`
   ADD CONSTRAINT `assessment_ibfk_1` FOREIGN KEY (`id_students`) REFERENCES `students` (`id`),
   ADD CONSTRAINT `assessment_ibfk_2` FOREIGN KEY (`id_subject_academic`) REFERENCES `subject_academic` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `faculty`
+--
+ALTER TABLE `faculty`
+  ADD CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`id_branch`) REFERENCES `bracnh` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `groups`

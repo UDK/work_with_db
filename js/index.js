@@ -1,15 +1,30 @@
 $(document).ready(
     function () {
+        //default load
         $.ajax({
             async: false,
             url: './php/response.php',
             type: 'GET',
-            data: {faculty: true},
+            data: {branch: true},
             success(data) {
                 let table = JSON.parse(data);
-                change_rating(table, 'faculty', 'faculty')
+                change_rating(table, 'faculty', 'branch')
             }
         })
+        $('.select_option_branch').change(
+            function () {
+                $.ajax({
+                    async: false,
+                    url: './php/response.php',
+                    type: 'GET',
+                    data: {faculty: true},
+                    success(data) {
+                        let table = JSON.parse(data);
+                        change_rating(table,'.select_option', 'faculty', 'faculty');
+                    }
+                })
+            }
+        )
         $('.select_option').change(
             function () {
                 $.ajax({
@@ -19,7 +34,7 @@ $(document).ready(
                     data: {group: true, value_faculty: $('#faculty option:selected').text()},
                     success(data) {
                         let table = JSON.parse(data);
-                        change_rating(table,'.select_option_group', 'groups', 'group');
+                        change_rating(table,'.select_option_group', 'groups', 'groups');
                     }
                 })
             }

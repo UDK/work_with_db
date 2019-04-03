@@ -36,6 +36,11 @@ class work_with_bd
         $data = $table_assessment->fetchAll();
         return $data;
     }
+    public function branch()
+    {
+        $request = "SELECT name FROM bracnh";
+        return $this->send_request($request);
+    }
 
     public function fuculty()
     {
