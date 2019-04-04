@@ -67,7 +67,7 @@ elseif($_GET['branch']==true){
     echo json_encode($faculty_table);
 }
 elseif($_GET['faculty']==true){
-    $faculty =$work_db->fuculty();
+    $faculty =$work_db->fuculty($_GET['value_branch']);
     $faculty_table = array();
     for($i =0;$i<count($faculty);$i++) {
         $faculty_table[$i] = $faculty[$i][0];

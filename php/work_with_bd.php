@@ -42,10 +42,12 @@ class work_with_bd
         return $this->send_request($request);
     }
 
-    public function fuculty()
+    public function fuculty($branch)
     {
-        $request = "SELECT name FROM faculty";
-        return $this->send_request($request);
+        $request_bd = $this->db_connect->prepare("SELECT faculty.name FROM faculty JOIN bracnh ON faculty.id_branch = bracnh.id WHERE bracnh.name = :branch");
+        $request_bd->bindParam(':branch',$branch);
+        $request_bd->execute();
+        return $request_bd->fetchAll();
     }
 
     public function groups($faculty)

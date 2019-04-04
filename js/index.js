@@ -17,7 +17,7 @@ $(document).ready(
                     async: false,
                     url: './php/response.php',
                     type: 'GET',
-                    data: {faculty: true},
+                    data: {faculty: true, value_branch: $('#branch option:selected').text()},
                     success(data) {
                         let table = JSON.parse(data);
                         change_rating(table,'.select_option', 'faculty', 'faculty');
