@@ -5,38 +5,7 @@ if ($work_db === null) {
 }
 if ($_GET['view'] == true) {
     $data_table = $work_db->view_table();
-    $unique_arr = array();
-    for ($a = 0; $a < count($data_table); $a++) {
-        $buff = $data_table[$a]['Фамилия'] . $data_table[$a]['id'];
-        $unique_arr['Предмет'][] = $data_table[$a]['Предмет'];
-        /*
-         * checks the names in the array if not, creates an associative array
-         */
-        if (!array_key_exists($buff, $unique_arr)) {
-            $unique_arr[$buff][$data_table[$a]['Предмет']] = $data_table[$a]['Оценка'];
-        } /*
-         * if there is the complements array
-         */
-        else {
-            $unique_arr[$buff][$data_table[$a]['Предмет']] = $data_table[$a]['Оценка'];
-        }
-    }
-    $unique_arr['Предмет'] = array_unique($unique_arr['Предмет']);
-    foreach ($unique_arr as $item => $val) {
-        if ($item == 'Предмет') {
-            continue;
-        }
-
-        foreach ($unique_arr['Предмет'] as $subject) {
-
-            if (!array_key_exists($subject, $val)) {
-                $unique_arr[$item][$subject] = 0;
-            }
-        }
-        ksort($unique_arr[$item]);
-
-    }
-    unset($unique_arr['Предмет']);
+    $unique_arr = array_preparation($data_table);
     echo json_encode($unique_arr);
 } elseif ($_GET['report'] == true) {
     $table_faculty = $work_db->view_avarage();
@@ -78,38 +47,7 @@ if ($_GET['view'] == true) {
     echo json_encode($group_table);
 } elseif ($_GET['rating'] == true) {
     $data_table = $work_db->rating($_GET['value_group']);
-    $unique_arr = array();
-    for ($a = 0; $a < count($data_table); $a++) {
-        $buff = $data_table[$a]['Фамилия'] . $data_table[$a]['id'];
-        $unique_arr['Предмет'][] = $data_table[$a]['Предмет'];
-        /*
-         * checks the names in the array if not, creates an associative array
-         */
-        if (!array_key_exists($buff, $unique_arr)) {
-            $unique_arr[$buff][$data_table[$a]['Предмет']] = $data_table[$a]['Оценка'];
-        } /*
-         * if there is the complements array
-         */
-        else {
-            $unique_arr[$buff][$data_table[$a]['Предмет']] = $data_table[$a]['Оценка'];
-        }
-    }
-    $unique_arr['Предмет'] = array_unique($unique_arr['Предмет']);
-    foreach ($unique_arr as $item => $val) {
-        if ($item == 'Предмет') {
-            continue;
-        }
-
-        foreach ($unique_arr['Предмет'] as $subject) {
-
-            if (!array_key_exists($subject, $val)) {
-                $unique_arr[$item][$subject] = 0;
-            }
-        }
-        ksort($unique_arr[$item]);
-
-    }
-    unset($unique_arr['Предмет']);
+    $unique_arr = array_preparation($data_table);
     echo json_encode($unique_arr);
 }
 function array_preparation($data_table)
