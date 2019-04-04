@@ -17,7 +17,7 @@ $(document).ready(
                     async: false,
                     url: './php/response.php',
                     type: 'GET',
-                    data: {faculty: true, value_branch: $('#branch option:selected').text()},
+                    data: {faculty: true},
                     success(data) {
                         let table = JSON.parse(data);
                         change_rating(table,'.select_option', 'faculty', 'faculty');
@@ -48,7 +48,7 @@ $(document).ready(
                     data: {rating: true, value_group: $('#groups option:selected').text()},
                     success(data) {
                         let avg = JSON.parse(data);
-                        Add_table(avg,'table_avg','avg',true)
+                        Add_table(avg,'table_avg','avg',false)
                     }
                 })
             }

@@ -42,12 +42,10 @@ class work_with_bd
         return $this->send_request($request);
     }
 
-    public function fuculty($branch)
+    public function fuculty()
     {
-        $request_bd = $this->db_connect->prepare("SELECT faculty.name FROM faculty JOIN bracnh ON faculty.id_branch = bracnh.id WHERE bracnh.name = :branch");
-        $request_bd->bindParam(':branch',$branch);
-        $request_bd->execute();
-        return $request_bd->fetchAll();
+        $request = "SELECT name FROM faculty";
+        return $this->send_request($request);
     }
 
     public function groups($faculty)
@@ -73,10 +71,10 @@ class work_with_bd
 
     public function rating($group)
     {
-        $request_bd = $this->db_connect->prepare("SELECT AVG(assessment.assessments),groups.name FROM groups JOIN students on groups.id = students.id_group JOIN assessment on students.id = assessment.id_students WHERE groups.name = :group");
+        $request_bd = $this->db_connect->prepare("SELECT assessment.assessments as 'Оценка', subject_academic.name as 'Предмет', students.surname as 'Фамилия', students.id FROM groups JOIN students on groups.id = students.id_group JOIN assessment on students.id = assessment.id_students JOIN subject_academic on assessment.id_subject_academic = subject_academic.id WHERE groups.name = :group");
         $request_bd->bindParam(':group',$group);
         $request_bd->execute();
-        return $request_bd->fetch();
+        return $request_bd->fetchAll();
     }
 
     public function unique()
